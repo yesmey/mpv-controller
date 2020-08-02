@@ -15,5 +15,5 @@ todo
 ## Contact
 [yesmey](https://github.com/yesmey)
 
-## Licence
+## License
 [Apache 2.0](https://opensource.org/licenses/Apache-2.0)

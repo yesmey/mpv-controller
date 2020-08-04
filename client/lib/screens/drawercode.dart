@@ -1,4 +1,3 @@
-import 'package:client/screens/main_screen.dart';
 import 'package:client/screens/settings_screen.dart';
 import 'package:client/utils/constants.dart';
 import 'package:flutter/material.dart';

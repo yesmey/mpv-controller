@@ -4,12 +4,7 @@ import sys
 from typing import List
 
 def is_folder(path: str) -> bool:
-    if not path:
-        return False
-    elif os.path.isdir(path):
-        return True
-    else: #elif os.path.isfile(path):
-        return False
+    return os.path.isdir(path)
 
 def get_upper_dir(path: str) -> str:
     try:
@@ -18,8 +13,7 @@ def get_upper_dir(path: str) -> str:
         return path
 
 def get_name(path: str) -> str:
-    name = os.path.basename(path)
-    return name
+    return os.path.basename(path)
 
 def is_valid_extension(path: str) -> bool:
     _, file_extension = os.path.splitext(path)

@@ -12,7 +12,7 @@ class Server:
     clients: Dict[WebSocketServerProtocol, Client] = dict()
 
     def send_files_event(self, message: str) -> str:
-        return json.dumps({"type": "explorer", "title": Explorer.get_name(message), "data": explorer.get_all_files(message)})
+        return json.dumps({"type": "explorer", "title": Explorer.get_name(message), "data": Explorer.get_all_files(message)})
 
     def send_config_event(self, client: Client) -> str:
         return json.dumps({"type": "config", "data": { "options": client.get_options(), "shaders": client.get_shaders() }})

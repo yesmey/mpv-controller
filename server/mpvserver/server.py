@@ -1,7 +1,8 @@
+import argparse
 import asyncio
 import json
 import websockets
-import explorer
+import explorer as Explorer
 
 from client import Client
 from typing import Dict
@@ -11,7 +12,7 @@ class Server:
     clients: Dict[WebSocketServerProtocol, Client] = dict()
 
     def send_files_event(self, message: str) -> str:
-        return json.dumps({"type": "explorer", "title": explorer.get_name(message), "data": explorer.get_all_files(message)})
+        return json.dumps({"type": "explorer", "title": Explorer.get_name(message), "data": explorer.get_all_files(message)})
 
     def send_config_event(self, client: Client) -> str:
         return json.dumps({"type": "config", "data": { "options": client.get_options(), "shaders": client.get_shaders() }})
@@ -45,12 +46,12 @@ class Server:
                 break
 
             if action == "pick_file":
-                if explorer.is_folder(data):
+                if Explorer.is_folder(data):
                     await ws.send(self.send_files_event(data))
-                elif explorer.is_valid_extension(data):
+                elif Explorer.is_valid_extension(data):
                     client.play_movie(data)
                 else:
-                    await ws.send(self.send_files_event(explorer.get_upper_dir(data)))
+                    await ws.send(self.send_files_event(Explorer.get_upper_dir(data)))
             elif action == "read_config":
                 await ws.send(self.send_config_event(client))
             elif action == "pause":
@@ -58,7 +59,7 @@ class Server:
             elif action == "resume":
                 client.resume()
             elif action == "stop":
-                client.stop();
+                client.stop()
             elif action == "volume":
                 client.volume(data)
             elif action == "seek":
@@ -89,8 +90,13 @@ class Server:
             self.unregister(ws)
 
 if __name__ == '__main__':
+    argument_parser = argparse.ArgumentParser(description='mpv-controller server')
+    argument_parser.add_argument("-ip", "--ip_address", required=True, default="127.0.0.1", help="IP Address")
+    argument_parser.add_argument("-p", "--port", required=True, default=8765, help="Port")
+    args = vars(argument_parser.parse_args())
+
     server = Server()
-    start_server = websockets.serve(server.ws_handler, "192.168.1.202", 8765)
+    start_server = websockets.serve(server.ws_handler, args["ip_address"], args["port"])
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(start_server)

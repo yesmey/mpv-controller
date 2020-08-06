@@ -9,7 +9,8 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": ["-ip", "192.168.1.202", "-p", "8765"]
         },
         {
             "name": "Flutter",

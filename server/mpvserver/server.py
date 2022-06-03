@@ -1,3 +1,4 @@
+import shutil, sys
 import argparse
 import asyncio
 import json
@@ -90,6 +91,10 @@ class Server:
             self.unregister(ws)
 
 if __name__ == '__main__':
+    #if shutil.which("mkvextract") is None:
+    #    print("mkvextract not installed. Please install it")
+    #    sys.exit(-1)
+
     argument_parser = argparse.ArgumentParser(description='mpv-controller server')
     argument_parser.add_argument("-ip", "--ip_address", required=True, default="127.0.0.1", help="IP Address")
     argument_parser.add_argument("-p", "--port", required=True, default=8765, help="Port")
